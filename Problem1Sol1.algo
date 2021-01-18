@@ -1,0 +1,168 @@
+
+//Problem2 : First solution : The sum of identical elements of 2 sets (arrays)
+
+
+ALGORITHM sum_Ident
+VAR
+    set1, set2 : ARRAY_OF INTEGER[30]; 
+    a, sum, i, j :INTEGER;
+BEGIN
+   j := 0; 
+   sum := 0;
+   WHILE (j<length(set2)) DO
+   a := set2[j];
+   FOR i FROM 0 TO length(set1)-1 DO
+   IF (set1[i]=a) THEN
+       sum := sum + set1[i] * 2;
+       
+       break;
+   END_IF
+   END_FOR
+   j:=j+1;
+    
+   END_WHILE
+
+END
+
+
+//Problem1 solution 2: The sum of non identical elements of 2 sets (hash_table)
+
+ALGORITHM sum_Ident
+VAR
+    htab: HASH_TABLE<INTEGER,INTEGER>;
+    set1, set2 : ARRAY_OF INTEGER[50];
+    key, count, i, j: INTEGER;
+BEGIN
+
+    FOR i FROM 0 TO length(set1)-1 STEP step 1 DO
+        IF (htab.lookup(set1[i])= True ) THEN
+            count := htab.get(set1[i]);
+            htab.insert(set1[i],count+1);
+        ELSE
+            htab.insert(set1[i],1);
+        END_IF
+    END_FOR
+
+    FOR i FROM 0 TO length(set2)-1 STEP step 1 DO
+        IF (htab.lookup(set2[i])= True ) THEN
+            count := htab.get(set2[i]);
+            htab.insert(set2[i],count+1);
+        ELSE
+            htab.insert(set2[i],1);
+        END_IF
+    END_FOR
+     //Trying to get the index of the elements in Hash table with value 1 
+     // Not sure of the syntax of this function or what it really returns (only one element or all the elements with the value 1)
+    
+        key := htab.getKey(1);
+        sum := sum + key;
+        
+    
+END
+
+
+
+
+
+//Problem2 solution 1: The sum of non identical elements of 2 sets (arrays)
+
+
+ALGORITHM sum_Diff
+VAR
+    set1, set2 : ARRAY_OF INTEGER[30]; 
+    a, b, sum, sum1, sum2, i, j :INTEGER;
+    not_exist :BOOLEAN;
+BEGIN
+   j := 0; 
+   sum1 := 0;
+   WHILE (j<length(set2)) DO
+   
+   FOR i FROM 0 TO length(set1)-1 DO
+   IF (set1[i] <> set2[j]) THEN
+       not_exist := true;
+       a := set1[i];
+       ELSE
+           not_exist := false;
+           
+   END_IF
+   break;
+   END_FOR
+   IF (not_exist) THEN
+       sum1 := sum1 + a;
+   END_IF
+   j:=j+1;
+    
+   END_WHILE
+
+  
+  
+   k:=0;
+   WHILE (k<length(set1)) DO
+   
+   FOR l FROM 0 TO length(set2)-1 DO
+     IF (set1[k] <> set2[l]) THEN
+       not_exist := true;
+       b := set2[l];
+       ELSE
+           not_exist := false;
+           
+     END_IF
+   break;
+
+   END_FOR
+
+   IF (not_exist) THEN
+       sum2 := sum2 + b;
+   END_IF
+   
+   k:=k+1;
+    
+   END_WHILE
+
+
+   sum := sum1 + sum2 ;
+   write (sum);
+   
+
+
+
+END
+
+
+
+//Problem2 solution 2: The sum of non identical elements of 2 sets (hash_table)
+
+ALGORITHM sum_Diff
+VAR
+    set1, set2 : ARRAY_OF INTEGER[30];
+    htab : HASH_TABLE<INTEGER,INTEGER>;
+    i, j, count, sum, key: INTEGER;
+BEGIN
+
+    FOR i FROM 0 TO length(set1)-1 STEP step 1 DO
+        IF (htab.lookup(set1[i])= True ) THEN
+            count := htab.get(set1[i]);
+            htab.insert(set1[i],count+1);
+        ELSE
+            htab.insert(set1[i],1);
+        END_IF
+    END_FOR
+
+    FOR i FROM 0 TO length(set2)-1 STEP step 1 DO
+        IF (htab.lookup(set2[i])= True ) THEN
+            count := htab.get(set2[i]);
+            htab.insert(set2[i],count+1);
+        ELSE
+            htab.insert(set2[i],1);
+        END_IF
+    END_FOR
+
+//Trying to get the index of the elements in Hash table with value 2
+     // Not sure of the syntax of this function or what it really returns (only one element or all the elements with the value 2)
+
+
+    key := htab.getKey(2);
+        sum := sum + 2 * key;
+        
+END
+
